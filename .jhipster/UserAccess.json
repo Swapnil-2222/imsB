@@ -1,0 +1,42 @@
+{
+  "applications": "*",
+  "changelogDate": "20220921122743",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "user_access",
+  "fields": [
+    {
+      "fieldName": "level",
+      "fieldType": "AccessLevel",
+      "fieldValues": "ROOT (Root),LAB (Lab),SECTION (Section)"
+    },
+    {
+      "fieldName": "accessId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "lastModified",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "lastModifiedBy",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "UserAccess",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "securityUser",
+      "relationshipName": "securityUser",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

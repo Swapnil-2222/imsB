@@ -1,0 +1,96 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="purchaseQuotation">
+      <h2 data-cy="purchaseQuotationDetailsHeading">
+        <span jhiTranslate="imsBApp.purchaseQuotation.detail.title">Purchase Quotation</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ purchaseQuotation.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="imsBApp.purchaseQuotation.totalPOAmount">Total PO Amount</span></dt>
+        <dd>
+          <span>{{ purchaseQuotation.totalPOAmount }}</span>
+        </dd>
+        <dt><span jhiTranslate="imsBApp.purchaseQuotation.totalGSTAmount">Total GST Amount</span></dt>
+        <dd>
+          <span>{{ purchaseQuotation.totalGSTAmount }}</span>
+        </dd>
+        <dt><span jhiTranslate="imsBApp.purchaseQuotation.expectedDeliveryDate">Expected Delivery Date</span></dt>
+        <dd>
+          <span>{{ purchaseQuotation.expectedDeliveryDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="imsBApp.purchaseQuotation.poDate">Po Date</span></dt>
+        <dd>
+          <span>{{ purchaseQuotation.poDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="imsBApp.purchaseQuotation.orderType">Order Type</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'imsBApp.OrderType.' + purchaseQuotation.orderType }}">{{ purchaseQuotation.orderType }}</span>
+        </dd>
+        <dt><span jhiTranslate="imsBApp.purchaseQuotation.orderStatus">Order Status</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'imsBApp.Status.' + purchaseQuotation.orderStatus }}">{{ purchaseQuotation.orderStatus }}</span>
+        </dd>
+        <dt><span jhiTranslate="imsBApp.purchaseQuotation.clientName">Client Name</span></dt>
+        <dd>
+          <span>{{ purchaseQuotation.clientName }}</span>
+        </dd>
+        <dt><span jhiTranslate="imsBApp.purchaseQuotation.clientMobile">Client Mobile</span></dt>
+        <dd>
+          <span>{{ purchaseQuotation.clientMobile }}</span>
+        </dd>
+        <dt><span jhiTranslate="imsBApp.purchaseQuotation.clientEmail">Client Email</span></dt>
+        <dd>
+          <span>{{ purchaseQuotation.clientEmail }}</span>
+        </dd>
+        <dt><span jhiTranslate="imsBApp.purchaseQuotation.termsAndCondition">Terms And Condition</span></dt>
+        <dd>
+          <span>{{ purchaseQuotation.termsAndCondition }}</span>
+        </dd>
+        <dt><span jhiTranslate="imsBApp.purchaseQuotation.notes">Notes</span></dt>
+        <dd>
+          <span>{{ purchaseQuotation.notes }}</span>
+        </dd>
+        <dt><span jhiTranslate="imsBApp.purchaseQuotation.lastModified">Last Modified</span></dt>
+        <dd>
+          <span>{{ purchaseQuotation.lastModified }}</span>
+        </dd>
+        <dt><span jhiTranslate="imsBApp.purchaseQuotation.lastModifiedBy">Last Modified By</span></dt>
+        <dd>
+          <span>{{ purchaseQuotation.lastModifiedBy }}</span>
+        </dd>
+        <dt><span jhiTranslate="imsBApp.purchaseQuotation.freeField1">Free Field 1</span></dt>
+        <dd>
+          <span>{{ purchaseQuotation.freeField1 }}</span>
+        </dd>
+        <dt><span jhiTranslate="imsBApp.purchaseQuotation.freeField2">Free Field 2</span></dt>
+        <dd>
+          <span>{{ purchaseQuotation.freeField2 }}</span>
+        </dd>
+        <dt><span jhiTranslate="imsBApp.purchaseQuotation.securityUser">Security User</span></dt>
+        <dd>
+          <div *ngIf="purchaseQuotation.securityUser">
+            <a [routerLink]="['/security-user', purchaseQuotation.securityUser.id, 'view']">{{ purchaseQuotation.securityUser.login }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/purchase-quotation', purchaseQuotation.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

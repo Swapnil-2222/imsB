@@ -1,0 +1,331 @@
+<div>
+  <h2 id="page-heading" data-cy="ProductHeading">
+    <span jhiTranslate="imsBApp.product.home.title">Products</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="imsBApp.product.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-product"
+        [routerLink]="['/product/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="imsBApp.product.home.createLabel"> Create a new Product </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="products?.length === 0">
+    <span jhiTranslate="imsBApp.product.home.notFound">No Products found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="products && products.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="shortName">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.shortName">Short Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="chemicalFormula">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.chemicalFormula">Chemical Formula</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="hsnNo">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.hsnNo">Hsn No</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="materialImage">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.materialImage">Material Image</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="isDeleted">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.isDeleted">Is Deleted</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="isActive">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.isActive">Is Active</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="productName">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.productName">Product Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="alertUnits">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.alertUnits">Alert Units</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="casNumber">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.casNumber">Cas Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="catlogNumber">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.catlogNumber">Catlog Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="molecularWt">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.molecularWt">Molecular Wt</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="molecularFormula">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.molecularFormula">Molecular Formula</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="chemicalName">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.chemicalName">Chemical Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="structureImg">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.structureImg">Structure Img</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="description">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.description">Description</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="qrCode">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.qrCode">Qr Code</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="barCode">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.barCode">Bar Code</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="gstPercentage">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.gstPercentage">Gst Percentage</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="productType">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.productType">Product Type</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="lastModified">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.lastModified">Last Modified</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="lastModifiedBy">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.lastModifiedBy">Last Modified By</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="freeField1">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.freeField1">Free Field 1</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="freeField2">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.freeField2">Free Field 2</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="categories.id">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.categories">Categories</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="unit.id">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.unit">Unit</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="securityUser.login">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.securityUser">Security User</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="purchaseQuotationDetails.id">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.product.purchaseQuotationDetails">Purchase Quotation Details</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/product', product.id, 'view']">{{ product.id }}</a>
+          </td>
+          <td>{{ product.shortName }}</td>
+          <td>{{ product.chemicalFormula }}</td>
+          <td>{{ product.hsnNo }}</td>
+          <td>
+            <a
+              *ngIf="product.materialImage"
+              (click)="openFile(product.materialImage, product.materialImageContentType)"
+              jhiTranslate="entity.action.open"
+              >Open</a
+            >
+            <span *ngIf="product.materialImage">{{ product.materialImageContentType }}, {{ byteSize(product.materialImage) }}</span>
+          </td>
+          <td>{{ product.isDeleted }}</td>
+          <td>{{ product.isActive }}</td>
+          <td>{{ product.productName }}</td>
+          <td>{{ product.alertUnits }}</td>
+          <td>{{ product.casNumber }}</td>
+          <td>{{ product.catlogNumber }}</td>
+          <td>{{ product.molecularWt }}</td>
+          <td>{{ product.molecularFormula }}</td>
+          <td>{{ product.chemicalName }}</td>
+          <td>{{ product.structureImg }}</td>
+          <td>{{ product.description }}</td>
+          <td>{{ product.qrCode }}</td>
+          <td>{{ product.barCode }}</td>
+          <td>{{ product.gstPercentage }}</td>
+          <td jhiTranslate="{{ 'imsBApp.ProductType.' + product.productType }}">{{ product.productType }}</td>
+          <td>{{ product.lastModified }}</td>
+          <td>{{ product.lastModifiedBy }}</td>
+          <td>{{ product.freeField1 }}</td>
+          <td>{{ product.freeField2 }}</td>
+          <td>
+            <div *ngIf="product.categories">
+              <a [routerLink]="['/categories', product.categories.id, 'view']">{{ product.categories.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="product.unit">
+              <a [routerLink]="['/unit', product.unit.id, 'view']">{{ product.unit.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="product.securityUser">
+              <a [routerLink]="['/security-user', product.securityUser.id, 'view']">{{ product.securityUser.login }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="product.purchaseQuotationDetails">
+              <a [routerLink]="['/purchase-quotation-details', product.purchaseQuotationDetails.id, 'view']">{{
+                product.purchaseQuotationDetails.id
+              }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/transfer-details']"
+                [queryParams]="{ 'filter[productId.in]': product.id }"
+                class="btn btn-info btn-sm"
+                data-cy="filterOtherEntityButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span
+                  class="d-none d-md-inline"
+                  jhiTranslate="entity.action.show"
+                  [translateValues]="{ otherEntity: ('imsBApp.product.transferDetails' | translate) }"
+                  >Show Transfer Details</span
+                >
+              </button>
+              <button
+                type="submit"
+                [routerLink]="['/product', product.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/product', product.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(product)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="products && products.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

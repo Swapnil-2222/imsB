@@ -1,0 +1,188 @@
+<div>
+  <h2 id="page-heading" data-cy="TransferDetailsApprovalsHeading">
+    <span jhiTranslate="imsBApp.transferDetailsApprovals.home.title">Transfer Details Approvals</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="imsBApp.transferDetailsApprovals.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-transfer-details-approvals"
+        [routerLink]="['/transfer-details-approvals/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="imsBApp.transferDetailsApprovals.home.createLabel"> Create a new Transfer Details Approvals </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="transferDetailsApprovals?.length === 0">
+    <span jhiTranslate="imsBApp.transferDetailsApprovals.home.notFound">No Transfer Details Approvals found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="transferDetailsApprovals && transferDetailsApprovals.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="approvalDate">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.transferDetailsApprovals.approvalDate">Approval Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="qtyRequested">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.transferDetailsApprovals.qtyRequested">Qty Requested</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="qtyApproved">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.transferDetailsApprovals.qtyApproved">Qty Approved</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="comment">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.transferDetailsApprovals.comment">Comment</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="freeField1">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.transferDetailsApprovals.freeField1">Free Field 1</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="lastModified">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.transferDetailsApprovals.lastModified">Last Modified</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="lastModifiedBy">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.transferDetailsApprovals.lastModifiedBy">Last Modified By</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="isDeleted">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.transferDetailsApprovals.isDeleted">Is Deleted</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="isActive">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.transferDetailsApprovals.isActive">Is Active</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="securityUser.login">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.transferDetailsApprovals.securityUser">Security User</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="transfer.id">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.transferDetailsApprovals.transfer">Transfer</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let transferDetailsApprovals of transferDetailsApprovals; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/transfer-details-approvals', transferDetailsApprovals.id, 'view']">{{ transferDetailsApprovals.id }}</a>
+          </td>
+          <td>{{ transferDetailsApprovals.approvalDate | formatMediumDatetime }}</td>
+          <td>{{ transferDetailsApprovals.qtyRequested }}</td>
+          <td>{{ transferDetailsApprovals.qtyApproved }}</td>
+          <td>{{ transferDetailsApprovals.comment }}</td>
+          <td>{{ transferDetailsApprovals.freeField1 }}</td>
+          <td>{{ transferDetailsApprovals.lastModified }}</td>
+          <td>{{ transferDetailsApprovals.lastModifiedBy }}</td>
+          <td>{{ transferDetailsApprovals.isDeleted }}</td>
+          <td>{{ transferDetailsApprovals.isActive }}</td>
+          <td>
+            <div *ngIf="transferDetailsApprovals.securityUser">
+              <a [routerLink]="['/security-user', transferDetailsApprovals.securityUser.id, 'view']">{{
+                transferDetailsApprovals.securityUser.login
+              }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="transferDetailsApprovals.transfer">
+              <a [routerLink]="['/transfer', transferDetailsApprovals.transfer.id, 'view']">{{ transferDetailsApprovals.transfer.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/transfer-details-approvals', transferDetailsApprovals.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/transfer-details-approvals', transferDetailsApprovals.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(transferDetailsApprovals)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="transferDetailsApprovals && transferDetailsApprovals.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>
