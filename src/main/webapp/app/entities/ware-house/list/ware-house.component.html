@@ -1,0 +1,243 @@
+<div>
+  <h2 id="page-heading" data-cy="WareHouseHeading">
+    <span jhiTranslate="imsBApp.wareHouse.home.title">Ware Houses</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="imsBApp.wareHouse.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-ware-house"
+        [routerLink]="['/ware-house/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="imsBApp.wareHouse.home.createLabel"> Create a new Ware House </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="wareHouses?.length === 0">
+    <span jhiTranslate="imsBApp.wareHouse.home.notFound">No Ware Houses found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="wareHouses && wareHouses.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="whName">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.wareHouse.whName">Wh Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="address">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.wareHouse.address">Address</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="pincode">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.wareHouse.pincode">Pincode</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="city">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.wareHouse.city">City</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="state">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.wareHouse.state">State</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="country">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.wareHouse.country">Country</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="gSTDetails">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.wareHouse.gSTDetails">G ST Details</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="managerName">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.wareHouse.managerName">Manager Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="managerEmail">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.wareHouse.managerEmail">Manager Email</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="managerContact">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.wareHouse.managerContact">Manager Contact</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="contact">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.wareHouse.contact">Contact</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="isDeleted">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.wareHouse.isDeleted">Is Deleted</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="isActive">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.wareHouse.isActive">Is Active</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="wareHouseId">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.wareHouse.wareHouseId">Ware House Id</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="lastModified">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.wareHouse.lastModified">Last Modified</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="lastModifiedBy">
+            <div class="d-flex">
+              <span jhiTranslate="imsBApp.wareHouse.lastModifiedBy">Last Modified By</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let wareHouse of wareHouses; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/ware-house', wareHouse.id, 'view']">{{ wareHouse.id }}</a>
+          </td>
+          <td>{{ wareHouse.whName }}</td>
+          <td>{{ wareHouse.address }}</td>
+          <td>{{ wareHouse.pincode }}</td>
+          <td>{{ wareHouse.city }}</td>
+          <td>{{ wareHouse.state }}</td>
+          <td>{{ wareHouse.country }}</td>
+          <td>{{ wareHouse.gSTDetails }}</td>
+          <td>{{ wareHouse.managerName }}</td>
+          <td>{{ wareHouse.managerEmail }}</td>
+          <td>{{ wareHouse.managerContact }}</td>
+          <td>{{ wareHouse.contact }}</td>
+          <td>{{ wareHouse.isDeleted }}</td>
+          <td>{{ wareHouse.isActive }}</td>
+          <td>{{ wareHouse.wareHouseId }}</td>
+          <td>{{ wareHouse.lastModified }}</td>
+          <td>{{ wareHouse.lastModifiedBy }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/product-inventory']"
+                [queryParams]="{ 'filter[wareHouseId.in]': wareHouse.id }"
+                class="btn btn-info btn-sm"
+                data-cy="filterOtherEntityButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span
+                  class="d-none d-md-inline"
+                  jhiTranslate="entity.action.show"
+                  [translateValues]="{ otherEntity: ('imsBApp.wareHouse.productInventory' | translate) }"
+                  >Show Product Inventory</span
+                >
+              </button>
+              <button
+                type="submit"
+                [routerLink]="['/security-user']"
+                [queryParams]="{ 'filter[wareHouseId.in]': wareHouse.id }"
+                class="btn btn-info btn-sm"
+                data-cy="filterOtherEntityButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span
+                  class="d-none d-md-inline"
+                  jhiTranslate="entity.action.show"
+                  [translateValues]="{ otherEntity: ('imsBApp.wareHouse.securityUser' | translate) }"
+                  >Show Security User</span
+                >
+              </button>
+              <button
+                type="submit"
+                [routerLink]="['/ware-house', wareHouse.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/ware-house', wareHouse.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(wareHouse)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="wareHouses && wareHouses.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

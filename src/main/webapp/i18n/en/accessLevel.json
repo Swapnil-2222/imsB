@@ -1,0 +1,10 @@
+{
+  "imsBApp": {
+    "AccessLevel": {
+      "null": "",
+      "ROOT": "Root",
+      "LAB": "Lab",
+      "SECTION": "Section"
+    }
+  }
+}
